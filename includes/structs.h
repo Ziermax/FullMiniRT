@@ -6,7 +6,7 @@
 /*   By: mvelazqu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 16:55:37 by mvelazqu          #+#    #+#             */
-/*   Updated: 2024/11/02 23:51:01 by mvelazqu         ###   ########.fr       */
+/*   Updated: 2024/11/02 23:55:42 by mvelazqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 
 # define W_WIDTH 1000
 # define W_HEIGHT 1000
+# define RED 0xFF0000ff
+# define GREEN 0x00FF00ff
+# define BLUE 0x0000FFff
 
 /* ************************************************************************** */
 /*                                Geometry structures                         */
