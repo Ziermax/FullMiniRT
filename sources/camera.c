@@ -10,17 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minirt.h"
+#include "../includes/minirt.h"
 
-t_camera *create_camera(void)
+t_camera create_camera(void)
 {
-	t_camera	*camera;
+	t_camera	camera;
 
-	camera = malloc(sizeof(t_camera));
-	if (!camera)
-		exit(1);
-	init_vector(&camera->origin, 0.f, 0.f, 0.f);
-	init_vector(&camera->orientation, 0.f, 0.f, 1.f);
-	camera->fov = 60.f;
+	init_vector(&camera.origin, 0.f, 0.f, 0.f);
+	init_vector(&camera.orientation, 0.f, 0.f, 1.f);
+	camera.fov = 60.f;
 	return (camera);
 }

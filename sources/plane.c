@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minirt.h"
+#include "../includes/minirt.h"
 
 
 static t_plane	*create_plane2(t_scene *scene)

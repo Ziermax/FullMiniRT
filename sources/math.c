@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minirt.h"
+#include "../includes/minirt.h"
 
 t_vector	vector_add(t_vector a, t_vector b)
 {

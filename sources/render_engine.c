@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minirt.h"
+#include "../includes/minirt.h"
 #include <math.h>
 
 t_vector	*check_intersections(t_data *data, t_ray ray)

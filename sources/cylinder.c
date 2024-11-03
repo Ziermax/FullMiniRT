@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minirt.h"
+#include "../includes/minirt.h"
 
 void	setup_cylinders(t_scene *scene, int num_cylinders)
 {

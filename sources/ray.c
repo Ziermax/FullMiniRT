@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minirt.h"
-#include "../inc/structs.h"
+#include "../includes/minirt.h"
+#include "../includes/structs.h"
 
 t_vector	calculate_direction(t_vector camera_o, double ndc_x, double ndc_y, t_data *data)
 {

@@ -17,7 +17,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <math.h>
-# include "MLX42/include/MLX42/MLX42.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 # include "structs.h"
 
 // void draw_image(t_img img);
@@ -25,7 +25,7 @@
 
 
 // camera functions
-t_camera *create_camera(void);
+t_camera create_camera(void);
 
 // light functions
 void	setup_lights(t_scene *scene, int num_lights);
