@@ -6,7 +6,7 @@
 /*   By: mvelazqu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 16:55:37 by mvelazqu          #+#    #+#             */
-/*   Updated: 2024/11/02 23:55:42 by mvelazqu         ###   ########.fr       */
+/*   Updated: 2024/11/03 04:29:57 by mvelazqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include "../MLX42/include/MLX42/MLX42.h"
 
+# define BPP 8
+# define X 0
+# define Y 1
 # define W_WIDTH 1000
 # define W_HEIGHT 1000
 # define RED 0xFF0000ff
@@ -42,8 +45,8 @@ typedef struct s_vector
 
 typedef struct s_ray
 {
-	t_vector origin;
-	t_vector direction;
+	t_vector	origin;
+	t_vector	direction;
 }	t_ray;
 
 typedef struct s_sphere
@@ -142,6 +145,10 @@ typedef struct s_data
 	t_scene		scene;
 //	int			aspect_ratio;
 //	double		scale;
+	int			w_height;
+	int			w_width;
 }	t_data;
+
+int	proportional_color(float percentage, int min_color, int max_color);
 
 #endif

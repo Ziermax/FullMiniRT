@@ -15,7 +15,7 @@ LIBFT_D	= ./Libft/
 #<---------------------------------|FILES|------------------------------------>#
 
 SRC_D	= ./sources/
-SRC_F	= main.c
+SRC_F	= main.c vector_operation.c math_complex_op.c
 
 OBJ_D	= ./objects/
 OBJ_F	= $(SRC_F:.c=.o)
