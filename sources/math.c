@@ -32,11 +32,6 @@ t_vector	vector_subtract(t_vector a, t_vector b)
 	return (vector);
 }
 
-float	dot_product(t_vector a, t_vector b)
-{
-	return (a.x * b.x + a.y * b.y + a.z * b.z);
-}
-
 t_vector	vector_scalar(t_vector a, double scalar)
 {
 	t_vector	vector;
@@ -57,12 +52,17 @@ t_vector	vector_cross_product(t_vector a, t_vector b)
 	return (vector);
 }
 
-double		normal_dev_coordinates(int coord, t_data *data, int ratio, int b)
-{ 
-	if (b == 0)
-		return (2 * (coord + 0.5) / data->img->width - 1) * ratio;
-	else
-		return (1 - 2 * (coord + 0.5) / data->img->height);
+double		normal_dev_coordinates(int coord, t_data *data, int b)
+{
+    if (b == 0) {
+        double ndc_x = (2 * (coord + 0.5) / data->w_width) - 1;
+        printf("NDC X for coord %d: %f\n", coord, ndc_x);
+        return ndc_x;
+    } else {
+        double ndc_y = 1 - (2 * (coord + 0.5) / data->w_height);
+        printf("NDC Y for coord %d: %f\n", coord, ndc_y);
+        return ndc_y;
+    }
 }
 
 t_vector	normalize_vector(double x, double y, double z)

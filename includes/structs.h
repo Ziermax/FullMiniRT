@@ -125,12 +125,6 @@ typedef struct s_scene
 	t_light		*lights;
 	t_light		amb_light;
 	t_camera	camera;
-//	t_sphere	**spheres;
-//	t_plane		**planes;
-//	t_cylinder	**cylinders;
-//	int			num_spheres;
-//	int			num_planes;
-//	int			num_cylinders;
 //	int			num_lights;
 }	t_scene;
 
@@ -143,8 +137,8 @@ typedef struct s_data
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	t_scene		scene;
-//	int			aspect_ratio;
-//	double		scale;
+	int			aspect_ratio;
+	double		scale;
 	int			w_height;
 	int			w_width;
 }	t_data;

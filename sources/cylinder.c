@@ -12,22 +12,22 @@
 
 #include "../includes/minirt.h"
 
-void	setup_cylinders(t_scene *scene, int num_cylinders)
-{
-	if (num_cylinders < 1)
-		scene->cylinders = NULL;
-	else
-	{
-		scene->cylinders = malloc(sizeof(t_cylinder) * num_cylinders);
-		if (!scene->cylinders)
-			exit(1);
-		while (num_cylinders > 0)
-		{
-			scene->cylinders[num_cylinders - 1] = create_cylinder(scene);
-			num_cylinders--;
-		}
-	}
-}
+// void	setup_cylinders(t_scene *scene, int num_cylinders)
+// {
+// 	if (num_cylinders < 1)
+// 		scene->cylinders = NULL;
+// 	else
+// 	{
+// 		scene->cylinders = malloc(sizeof(t_cylinder) * num_cylinders);
+// 		if (!scene->cylinders)
+// 			exit(1);
+// 		while (num_cylinders > 0)
+// 		{
+// 			scene->cylinders[num_cylinders - 1] = create_cylinder(scene);
+// 			num_cylinders--;
+// 		}
+// 	}
+// }
 
 t_cylinder	*create_cylinder(t_scene *scene)
 {

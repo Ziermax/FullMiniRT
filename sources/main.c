@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "../Libft/includes/libft.h"
-#include "../includes/structs.h" 
+#include "../includes/structs.h"
+#include "../includes/minirt.h"
 
 //QUITAR ESTO
 t_scene	init_scene(void);
@@ -81,10 +82,9 @@ int	main(int argc, char **argv)
 	mlx_loop_hook(data.mlx, key_events, &data.mlx);
 	data.w_height = data.img->height / BPP;
 	data.w_width = data.img->width / BPP;
-	/*	*
-	 *	Aqui va tu funcion ->
-	 *	draw_scene(data, data.scene);
-	 */
+	data.aspect_ratio = data.w_width / data.w_height;
+	data.scale = tan(data.scene.camera.fov * 0.5 * M_PI / 180);
+	render_engine(&data);
 	mlx_loop(data.mlx);
 	mlx_terminate(data.mlx);
 	return (0);
@@ -159,6 +159,7 @@ t_scene	init_scene(void)
 	scene.camera.orientation.x = 0.f;
 	scene.camera.orientation.y = 0.f;
 	scene.camera.orientation.z = 1.f;
+	scene.camera.fov = 60.f;
 	/*	*
 	 *	Lights
 	 */
@@ -184,5 +185,6 @@ t_scene	init_scene(void)
 	scene.objects->next->next->shape.sphere.center.z = 50;
 	scene.objects->next->next->shape.sphere.radius = 3;
 	scene.objects->next->next->color = BLUE;
+
 	return (scene);
 }
