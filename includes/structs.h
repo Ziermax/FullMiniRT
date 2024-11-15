@@ -23,6 +23,8 @@
 # define RED 0xFF0000ff
 # define GREEN 0x00FF00ff
 # define BLUE 0x0000FFff
+# define WHITE 0xFFFFFFff
+# define BLACK 0x000000ff
 
 /* ************************************************************************** */
 /*                                Geometry structures                         */
@@ -102,6 +104,13 @@ struct s_object
 /*                                Scene structures                            */
 /* ************************************************************************** */
 
+
+typedef struct s_intersection {
+    t_vector intersection;
+    t_object *object;
+	bool hit;
+} t_intersection;
+
 typedef struct s_light	t_light;
 
 struct s_light
@@ -144,5 +153,5 @@ typedef struct s_data
 }	t_data;
 
 int	proportional_color(float percentage, int min_color, int max_color);
-
+int get_color(t_data *data, t_vector intersection, t_object *object);
 #endif

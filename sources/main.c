@@ -171,20 +171,34 @@ t_scene	init_scene(void)
 	 *	Action
 	 */
 	scene.objects = NULL;
+
+	t_object *new_object;
+
+	// Add first sphere
 	lst_add_back(&scene.objects, hardcode_sphere());
-	scene.objects->shape.sphere.center.z = 8.19152f;
-	scene.objects->shape.sphere.center.x = 5.7357f;
-	scene.objects->shape.sphere.radius = 4;
-	scene.objects->color = GREEN;
+	new_object = scene.objects;
+	new_object->shape.sphere.center.z = 8.19152f;
+	new_object->shape.sphere.center.x = 5.7357f;
+	new_object->shape.sphere.radius = 4;
+	new_object->color = GREEN;
+	printf("Color: %x\n", new_object->color);
+
+	// Add second sphere
 	lst_add_back(&scene.objects, hardcode_sphere());
-	scene.objects->next->shape.sphere.center.z = 8.19152f;
-	scene.objects->next->shape.sphere.center.x = -5.7357f;
-	scene.objects->next->shape.sphere.radius = 4;
-	scene.objects->next->color = RED;
+	new_object = scene.objects->next;
+	new_object->shape.sphere.center.z = 8.19152f;
+	new_object->shape.sphere.center.x = -5.7357f;
+	new_object->shape.sphere.radius = 4;
+	new_object->color = RED;
+	printf("Color: %x\n", new_object->color);
+
+	// Add third sphere
 	lst_add_back(&scene.objects, hardcode_sphere());
-	scene.objects->next->next->shape.sphere.center.z = 50;
-	scene.objects->next->next->shape.sphere.radius = 3;
-	scene.objects->next->next->color = BLUE;
+	new_object = scene.objects->next->next;
+	new_object->shape.sphere.center.z = 50;
+	new_object->shape.sphere.radius = 3;
+	new_object->color = BLUE;
+	printf("Color: %x\n", new_object->color);
 
 	return (scene);
 }

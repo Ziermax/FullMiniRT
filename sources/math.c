@@ -56,11 +56,9 @@ double		normal_dev_coordinates(int coord, t_data *data, int b)
 {
     if (b == 0) {
         double ndc_x = (2 * (coord + 0.5) / data->w_width) - 1;
-        printf("NDC X for coord %d: %f\n", coord, ndc_x);
         return ndc_x;
     } else {
         double ndc_y = 1 - (2 * (coord + 0.5) / data->w_height);
-        printf("NDC Y for coord %d: %f\n", coord, ndc_y);
         return ndc_y;
     }
 }

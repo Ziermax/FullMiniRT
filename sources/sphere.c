@@ -43,7 +43,6 @@ float	check_sphere_intersection(t_object *object, t_ray ray)
         float sqrt_discriminant = sqrt(discriminant);
         float t1 = (-b - sqrt_discriminant) / (2 * a);
         float t2 = (-b + sqrt_discriminant) / (2 * a);
-		printf("t1: %f, t2: %f\n", t1, t2);
         return choose_smaller_t(t1, t2); // Return the closest positive intersection
     }
 }

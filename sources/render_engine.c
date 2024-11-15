@@ -13,11 +13,12 @@
 #include "../includes/minirt.h"
 #include <math.h>
 
-t_vector	*check_intersections(t_object *object, t_ray ray)
+t_intersection	check_intersections(t_object *object, t_ray ray)
 {
 	float		closest_t;
 	float		temp;
-	t_vector	*intersection;
+	t_intersection	intersection_data;
+	t_object	*closest_object;
 
 
 	closest_t = INFINITY;
@@ -25,11 +26,10 @@ t_vector	*check_intersections(t_object *object, t_ray ray)
 	{
 		if (object->type == SPHERE)
 		{
-			printf("Checking sphere\n");
 			temp = check_sphere_intersection(object, ray);
 			if (temp < closest_t)
 			{
-				printf("Sphere intersection found, t = %f\n", temp);
+				closest_object = object;
 				closest_t = temp;
 			}
 		}
@@ -45,26 +45,29 @@ t_vector	*check_intersections(t_object *object, t_ray ray)
 		// 	if (temp < closest_t)
 		// 		closest_t = temp;
 		// }
+		
 		object = object->next;
 	}
 	if (closest_t == INFINITY)
 	{
-		printf("No intersection found\n");
-		return (NULL);
+		intersection_data.hit = false;
+		return (intersection_data);
 	}
-	intersection = malloc(sizeof(t_vector));
-	intersection->x = ray.origin.x + ray.direction.x * closest_t;
-	intersection->y = ray.origin.y + ray.direction.y * closest_t;
-	intersection->z = ray.origin.z + ray.direction.z * closest_t;
-	return (intersection);
+    intersection_data.intersection.x = ray.origin.x + ray.direction.x * closest_t;
+    intersection_data.intersection.y = ray.origin.y + ray.direction.y * closest_t;
+    intersection_data.intersection.z = ray.origin.z + ray.direction.z * closest_t;
+    intersection_data.object = closest_object;
+	intersection_data.hit = true;
+	return (intersection_data);
 }
 
 void	render_engine(t_data *data)
 {
-	int	x;
-	int	y;
-	t_ray	ray;
-	t_vector	*intersection;
+	int			x;
+	int			y;
+	t_ray		ray;
+	t_intersection	intersection;
+	int			color;
 	
 	// loop through each pixel in the image
 	y = 0;
@@ -74,16 +77,17 @@ void	render_engine(t_data *data)
 		while (x < data->w_width)
 		{
 			ray = create_ray(data, x, y);
+			intersection.hit = false;
 			intersection = check_intersections(data->scene.objects, ray);
-			if (intersection)
+			if (intersection.hit)
 			{
-				my_put_pixel(data->img, x, y, GREEN);
-				// get color
-				// put pixel on image
-				free(intersection);
+				printf("object color: %x\n", intersection.object->color);
+				color = get_color(data, intersection.intersection, intersection.object);
+				printf("Official Color at thee end of all calculations: %x\n", color);
+				my_put_pixel(data->img, x, y, intersection.object->color);
 			}
 			else 
-				my_put_pixel(data->img, x, y, RED);
+				my_put_pixel(data->img, x, y, BLACK);
 			x++;
 		}
 		y++;
