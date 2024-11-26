@@ -84,7 +84,7 @@ void	render_engine(t_data *data)
 				printf("object color: %x\n", intersection.object->color);
 				color = get_color(data, intersection.intersection, intersection.object);
 				printf("Official Color at thee end of all calculations: %x\n", color);
-				my_put_pixel(data->img, x, y, intersection.object->color);
+				my_put_pixel(data->img, x, y, color);
 			}
 			else 
 				my_put_pixel(data->img, x, y, BLACK);

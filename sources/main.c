@@ -140,8 +140,8 @@ t_light	*hardcode_light(void)
 	light->origin.x = 0.f;
 	light->origin.z = 0.f;
 	light->origin.y = 0.f;
-	light->color = 0xffFF;
-	light->brightness = 1.f;
+	light->color = WHITE;
+	light->brightness = 0.6f;
 	light->next = NULL;
 	return (light);
 }
