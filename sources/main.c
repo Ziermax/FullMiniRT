@@ -138,8 +138,8 @@ t_light	*hardcode_light(void)
 	if (!light)
 		return (NULL);
 	light->origin.x = 0.f;
-	light->origin.z = 0.f;
-	light->origin.y = 0.f;
+	light->origin.z = -20.f;
+	light->origin.y = 10.f;
 	light->color = WHITE;
 	light->brightness = 1.f;
 	light->next = NULL;
@@ -167,59 +167,7 @@ t_scene	init_scene(void)
 	scene.amb_light.color = 0x0;
 	scene.lights = NULL;
 	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	lst_add_back(&scene.lights, hardcode_light());
-	scene.lights->origin.x = 0.f;
-	scene.lights->origin.z = 0.f;
-	scene.lights->origin.y = 20.f;
+
 	/*	*
 	 *	Action
 	 */
