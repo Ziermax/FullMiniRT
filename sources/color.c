@@ -76,7 +76,6 @@ int clamp_color(int color) {
     int green = (color >> 8) & 0xFF;
     int blue = color & 0xFF;
 
-    // Clamp each channel to the range 0-255
     red = red > 255 ? 255 : (red < 0 ? 0 : red);
     green = green > 255 ? 255 : (green < 0 ? 0 : green);
     blue = blue > 255 ? 255 : (blue < 0 ? 0 : blue);
@@ -95,18 +94,10 @@ int scale_color(int base_color, double scale_factor) {
     green = (int)(green * scale_factor);
     blue = (int)(blue * scale_factor);
 
-    // Clamp to prevent overflow
     red = red > 255 ? 255 : red;
     green = green > 255 ? 255 : green;
     blue = blue > 255 ? 255 : blue;
-
     return (alpha << 24) | (red << 16) | (green << 8) | blue;
-}
-
-
-int blend_lighting(int object_color, int light_color, double brightness) {
-    int scaled_light_color = scale_color(light_color, brightness);
-    return proportional_color(brightness, object_color, scaled_light_color);
 }
 
 int apply_diffuse_lighting(int object_color, t_vector normal, t_light *light, t_vector intersection) {
@@ -114,29 +105,49 @@ int apply_diffuse_lighting(int object_color, t_vector normal, t_light *light, t_
     light_dir = normalize_vector(light_dir.x, light_dir.y, light_dir.z);
 
     double brightness = dot_product(normal, light_dir);
-	
-	if (brightness < 0) {
-		printf("brightness: %f\n", brightness);
-	}
-    return proportional_color(brightness * light->brightness, object_color, light->color);
-}
+    brightness = brightness > 1.0 ? 1.0 : (brightness < 0.0 ? 0.0 : brightness);
 
+    return scale_color(object_color, brightness * light->brightness);
+}
 
 int get_color(t_data *data, t_vector intersection, t_object *object) {
     t_vector normal = surface_normal(object, intersection);
     t_light *light = data->scene.lights;
 
-    int color =0;
+    double ambient_intensity = data->scene.amb_light.brightness;
+    int final_color = proportional_color(ambient_intensity, object->color, BLACK);
 
-    while (light)
-	{
+    while (light) {
+        t_vector light_dir = vector_subtract(light->origin, intersection);
+        light_dir = normalize_vector(light_dir.x, light_dir.y, light_dir.z);
+
+        double brightness = dot_product(normal, light_dir);
+        if (brightness > 0) {
             int diffuse_color = apply_diffuse_lighting(object->color, normal, light, intersection);
-            color = proportional_color(1.0, color, diffuse_color);
+            final_color = proportional_color(brightness, final_color, diffuse_color);
+        }
         light = light->next;
     }
-
-    return clamp_color(color);  // Clamp color to valid range (0–255 per channel)
+    return clamp_color(final_color);
 }
+
+
+
+// int get_color(t_data *data, t_vector intersection, t_object *object) {
+//     t_vector normal = surface_normal(object, intersection);
+//     t_light *light = data->scene.lights;
+
+//     int color =0;
+
+//     while (light)
+// 	{
+//             int diffuse_color = apply_diffuse_lighting(object->color, normal, light, intersection);
+//             color = proportional_color(1.0, color, diffuse_color);
+//         light = light->next;
+//     }
+
+//     return clamp_color(color);  // Clamp color to valid range (0–255 per channel)
+// }
 
 
 // int get_color(t_data *data, t_vector intersection, t_object *object) {

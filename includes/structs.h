@@ -15,7 +15,7 @@
 
 # include "../MLX42/include/MLX42/MLX42.h"
 
-# define BPP 8
+# define BPP 4
 # define X 0
 # define Y 1
 # define W_WIDTH 1000
