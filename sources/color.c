@@ -115,7 +115,8 @@ int get_color(t_data *data, t_vector intersection, t_object *object) {
     t_light *light = data->scene.lights;
 
     double ambient_intensity = data->scene.amb_light.brightness;
-    int final_color = proportional_color(ambient_intensity, object->color, BLACK);
+	int non_direct_light_color = proportional_color(0.99, object->color, BLACK);
+    int final_color = proportional_color(ambient_intensity, object->color, non_direct_light_color);
 
     while (light) {
         t_vector light_dir = vector_subtract(light->origin, intersection);
@@ -130,6 +131,12 @@ int get_color(t_data *data, t_vector intersection, t_object *object) {
     }
     return clamp_color(final_color);
 }
+
+// to do:
+// normalize light brightness, it looks weird when brightness is 0.3 or lower. also at 3 it should be the brightest possible, its weird af
+// add specular lighting
+// add shadows
+// add plane and cylinder
 
 
 
