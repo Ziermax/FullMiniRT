@@ -37,11 +37,11 @@ float	angle_between_vectors(t_vector vec1, t_vector vec2)
 	return (acosf(quotient / divident));
 }
 
-int	quadratic_formula(float a, float b, float c, float *result)
+int	quadratic_formula_by_maxi(float a, float b, float c, float *result)
 {
 	float	half_b;
 	float	discriminant;
-	
+
 	if (!result || a == 0.f)
 		return (1);
 	half_b = -b / 2;
@@ -52,4 +52,21 @@ int	quadratic_formula(float a, float b, float c, float *result)
 	result[0] = (half_b + discriminant) / a;
 	result[1] = (half_b - discriminant) / a;
 	return (0);
+}
+
+double	normal_dev_coordinates(int coord, t_data *data, int b)
+{
+	double	ndc_x;
+	double	ndc_y;
+
+	if (b == 0)
+	{
+		ndc_x = (2 * (coord + 0.5) / data->w_width) - 1;
+		return (ndc_x);
+	}
+	else
+	{
+		ndc_y = 1 - (2 * (coord + 0.5) / data->w_height);
+		return (ndc_y);
+	}
 }

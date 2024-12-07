@@ -41,3 +41,28 @@ float	dot_product(t_vector vec1, t_vector vec2)
 {
 	return (vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z);
 }
+
+t_vector	normalize_vector(double x, double y, double z)
+{
+	t_vector	vector;
+	double		magnitude;
+
+	vector.x = x;
+	vector.y = y;
+	vector.z = z;
+	magnitude = sqrt(vector.x * vector.x + vector.y
+			* vector.y + vector.z * vector.z);
+	if (magnitude == 0)
+	{
+		vector.x = 0;
+		vector.y = 0;
+		vector.z = 0;
+	}
+	else
+	{
+		vector.x /= magnitude;
+		vector.y /= magnitude;
+		vector.z /= magnitude;
+	}
+	return (vector);
+}

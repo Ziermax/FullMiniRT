@@ -32,23 +32,22 @@ void	setup_lights(t_scene *scene, int num_lights);
 t_light	*create_light(t_scene *scene);
 
 // sphere functions
+float	choose_smaller_t(float t1, float t2);
 float	check_sphere_intersection(t_object *object, t_ray ray);
-void	setup_spheres(t_scene *scene, int num_spheres);
-t_sphere	*create_sphere(t_scene *scene);
 
 // plane functions
-void	setup_planes(t_scene *scene, int num_planes);
-t_plane	*create_plane(t_scene *scene);
+float	check_plane_intersection(t_object *object, t_ray ray);
 
 // cylinder functions
-void	setup_cylinders(t_scene *scene, int num_cylinders);
-t_cylinder	*create_cylinder(t_scene *scene);
+float check_cylinder_intersection(t_object *object, t_ray ray);
+t_vector cylinder_normal(t_cylinder cyl, t_vector point);
 
 // inits
 void	init_vector(t_vector *vector, double x, double y, double z);
 void	create_scene(t_scene *scene);
 
 // render engine
+t_intersection	check_intersections(t_object *object, t_ray ray);
 void	render_engine(t_data *data);
 
 // math functions
@@ -59,10 +58,19 @@ double		normal_dev_coordinates(int coord, t_data *data, int b);
 t_vector	normalize_vector(double x, double y, double z);
 t_vector	vector_subtract(t_vector a, t_vector b);
 float	dot_product(t_vector a, t_vector b);
+float vector_length(t_vector v);
 
 // ray functions
 t_vector	calculate_direction(t_vector camera_dir, double ndc_x, double ndc_y);
 t_ray	create_ray(t_data *data, int x, int y);
+
+//color utils
+
+void	clamp_rgba(int *red, int *green, int *blue, int *alpha);
+int	sum_colors(int color1, int color2);
+int	scale_color(int base_color, double brightness_factor);
+int	clamp_color(int color);
+int	multiply_colors_with_fallback(int color1, int color2, float fallback_factor);
 
 void	my_put_pixel(mlx_image_t *img, int x, int y, int color);
 

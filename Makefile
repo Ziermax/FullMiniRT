@@ -16,7 +16,7 @@ LIBFT_D	= ./Libft/
 
 SRC_D	= ./sources/
 SRC_F	= main.c vector_operation.c math_complex_op.c camera.c color.c cylinder.c \
-			inits.c lights.c math.c plane.c ray.c render_engine.c sphere.c
+			inits.c lights.c math.c plane.c ray.c render_engine.c sphere.c color_utils.c \
 
 OBJ_D	= ./objects/
 OBJ_F	= $(SRC_F:.c=.o)

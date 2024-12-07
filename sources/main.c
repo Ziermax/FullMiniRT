@@ -141,9 +141,26 @@ t_light	*hardcode_light(void)
 	light->origin.z = -20.f;
 	light->origin.y = 10.f;
 	light->color = WHITE;
-	light->brightness = 3.f;
+	light->brightness = 0.8f;
 	light->next = NULL;
 	return (light);
+}
+
+t_object *hardcode_cylinder(void)
+{
+    t_object *object = malloc(sizeof(t_object));
+    if (!object)
+        return NULL;
+
+    object->type = CYLINDER;
+    object->shape.cylinder.center = (t_vector){0, -5, 2};
+    object->shape.cylinder.axis = (t_vector){0, 0, 1}; // Vertical axis
+    object->shape.cylinder.radius = 3.0f;
+    object->shape.cylinder.height = 10.0f;
+    object->color = WHITE;
+    object->next = NULL;
+
+    return object;
 }
 
 t_scene	init_scene(void)
@@ -156,15 +173,15 @@ t_scene	init_scene(void)
 	scene.camera.origin.x = 0.f;
 	scene.camera.origin.y = 0.f;
 	scene.camera.origin.z = -20.f;
-	scene.camera.orientation.x = 0.f;
+	scene.camera.orientation.x = 0.0f;
 	scene.camera.orientation.y = 0.f;
-	scene.camera.orientation.z = 1.f;
+	scene.camera.orientation.z = 1.0f;
 	scene.camera.fov = 60.f;
 	/*	*
 	 *	Lights
 	 */
-	scene.amb_light.brightness = 1.f;
-	scene.amb_light.color = 0x0;
+	scene.amb_light.brightness = 0.2f;
+	scene.amb_light.color = WHITE;
 	scene.lights = NULL;
 	lst_add_back(&scene.lights, hardcode_light());
 
@@ -182,7 +199,6 @@ t_scene	init_scene(void)
 	new_object->shape.sphere.center.x = 5.7357f;
 	new_object->shape.sphere.radius = 4;
 	new_object->color = GREEN;
-	printf("Color: %x\n", new_object->color);
 
 	// Add second sphere
 	lst_add_back(&scene.objects, hardcode_sphere());
@@ -191,7 +207,6 @@ t_scene	init_scene(void)
 	new_object->shape.sphere.center.x = -5.7357f;
 	new_object->shape.sphere.radius = 4;
 	new_object->color = RED;
-	printf("Color: %x\n", new_object->color);
 
 	// Add third sphere
 	lst_add_back(&scene.objects, hardcode_sphere());
@@ -199,7 +214,19 @@ t_scene	init_scene(void)
 	new_object->shape.sphere.center.z = 50;
 	new_object->shape.sphere.radius = 3;
 	new_object->color = BLUE;
-	printf("Color: %x\n", new_object->color);
+
+	// add plane
+	lst_add_back(&scene.objects, hardcode_plane());
+	new_object = scene.objects->next->next->next;
+	new_object->shape.plane.center.y = -50;
+	new_object->shape.plane.normal.x = 0;
+	new_object->shape.plane.normal.z = 0;
+	new_object->shape.plane.normal.y = 1;
+	new_object->color = WHITE;
+
+	// add cylinder
+	lst_add_back(&scene.objects, hardcode_cylinder());
+	new_object = scene.objects->next->next->next->next;
 
 	return (scene);
 }

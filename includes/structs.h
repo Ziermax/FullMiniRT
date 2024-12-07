@@ -15,7 +15,7 @@
 
 # include "../MLX42/include/MLX42/MLX42.h"
 
-# define BPP 4
+# define BPP 1
 # define X 0
 # define Y 1
 # define W_WIDTH 1000
@@ -25,6 +25,10 @@
 # define BLUE 0x0000FFff
 # define WHITE 0xFFFFFFff
 # define BLACK 0x000000ff
+# define YELLOW 0xFFFF00ff
+
+#define SHADOW_BIAS 0.001
+#define EPSILON 1e-6
 
 /* ************************************************************************** */
 /*                                Geometry structures                         */
