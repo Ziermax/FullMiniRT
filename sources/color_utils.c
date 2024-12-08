@@ -86,7 +86,7 @@ int	clamp_color(int color)
 	return ((red << 24) | (green << 16) | (blue << 8) | alpha);
 }
 
-int	multiply_colors_with_fallback(int color1, int color2, float fallback_factor)
+int	multiply_colors_with_fallback(int color1, int color2, double fallback_factor)
 {
 	int	red;
 	int	green;

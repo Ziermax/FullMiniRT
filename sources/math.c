@@ -32,7 +32,7 @@ t_vector	vector_subtract(t_vector a, t_vector b)
 	return (vector);
 }
 
-float	vector_length(t_vector v)
+double	vector_length(t_vector v)
 {
 	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
 }

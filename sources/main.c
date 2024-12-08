@@ -6,16 +6,33 @@
 /*   By: mvelazqu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 16:41:02 by mvelazqu          #+#    #+#             */
-/*   Updated: 2024/11/03 04:26:19 by mvelazqu         ###   ########.fr       */
+/*   Updated: 2024/12/08 19:02:50 by atudor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Libft/includes/libft.h"
+#include "../includes/libft/libft.h"
 #include "../includes/structs.h"
 #include "../includes/minirt.h"
 
 //QUITAR ESTO
 t_scene	init_scene(void);
+
+void	lst_add_back(void *list, void *node)
+{
+	void	**aux;
+
+	if (!list || !node)
+		return ;
+	if (!*(void **)list)
+	{
+		*(void **)list = node;
+		return ;
+	}
+	aux = *(void **)list;
+	while (*aux)
+		aux = *aux;
+	*aux = node;
+}
 
 void	my_put_pixel(mlx_image_t *img, int x, int y, int color)
 {
@@ -59,11 +76,11 @@ void	destroy_data(t_data *data)
 
 void	key_events(void *param)
 {
-	mlx_image_t	*image;
+//	mlx_image_t	*image;
 	mlx_t		*mlx;
 
 	mlx = ((t_data *)param)->mlx;
-	image = ((t_data *)param)->img;
+//	image = ((t_data *)param)->img;
 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
 		destroy_data(param);
 }
@@ -139,7 +156,7 @@ t_light	*hardcode_light(void)
 		return (NULL);
 	light->origin.x = 0.f;
 	light->origin.z = -20.f;
-	light->origin.y = 10.f;
+	light->origin.y = 0.f;
 	light->color = WHITE;
 	light->brightness = 0.8f;
 	light->next = NULL;

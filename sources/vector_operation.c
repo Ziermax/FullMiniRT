@@ -29,7 +29,7 @@ t_vector	sub_vec(t_vector vec1, t_vector vec2)
 	return (vec1);
 }
 
-t_vector	scl_vec(t_vector vec, float scale)
+t_vector	scl_vec(t_vector vec, double scale)
 {
 	vec.x *= scale;
 	vec.y *= scale;
@@ -37,7 +37,7 @@ t_vector	scl_vec(t_vector vec, float scale)
 	return (vec);
 }
 
-float	dot_product(t_vector vec1, t_vector vec2)
+double	dot_product(t_vector vec1, t_vector vec2)
 {
 	return (vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z);
 }

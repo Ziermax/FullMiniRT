@@ -15,8 +15,8 @@
 
 t_intersection	check_intersections(t_object *object, t_ray ray)
 {
-	float			closest_t;
-	float			temp;
+	double			closest_t;
+	double			temp;
 	t_intersection	intersection_data;
 	t_object		*closest_object;
 
@@ -24,31 +24,15 @@ t_intersection	check_intersections(t_object *object, t_ray ray)
 	while (object)
 	{
 		if (object->type == SPHERE)
-		{
 			temp = check_sphere_intersection(object, ray);
-			if (temp < closest_t)
-			{
-				closest_object = object;
-				closest_t = temp;
-			}
-		}
-		if (object->type == PLANE)
-		{
+		else if (object->type == PLANE)
 			temp = check_plane_intersection(object, ray);
-			if (temp < closest_t)
-			{
-				closest_object = object;
-				closest_t = temp;
-			}
-		}
-		if (object->type == CYLINDER)
-		{
+		else if (object->type == CYLINDER)
 			temp = check_cylinder_intersection(object, ray);
-			if (temp < closest_t)
-			{
-				closest_object = object;
-				closest_t = temp;
-			}
+		if (temp < closest_t)
+		{
+			closest_object = object;
+			closest_t = temp;
 		}
 		object = object->next;
 	}

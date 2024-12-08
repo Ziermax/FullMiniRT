@@ -12,10 +12,10 @@
 
 #include "../includes/minirt.h"
 
-float	check_plane_intersection(t_object *object, t_ray ray)
+double	check_plane_intersection(t_object *object, t_ray ray)
 {
-	float		denom;
-	float		t;
+	double		denom;
+	double		t;
 	t_vector	oc;
 
 	denom = dot_product(ray.direction, object->shape.plane.normal);

@@ -3,14 +3,14 @@
 NAME		= miniRT
 CC			= cc
 CFLAGS		= -Wextra -Wall -Werror #-fsanitize=address
-MLXFLAGS	= -ldl -lglfw -pthread -lm
+MLXFLAGS	= -L/opt/homebrew/lib -ldl -lglfw -pthread -lm
 
 #<-------------------------------|LIBRARIES|---------------------------------->#
 
 MLX		= libmlx42.a
 MLX_D	= ./MLX42/build/
 LIBFT	= libft.a
-LIBFT_D	= ./Libft/
+LIBFT_D	= includes/Libft/
 
 #<---------------------------------|FILES|------------------------------------>#
 

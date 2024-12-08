@@ -28,7 +28,7 @@
 # define YELLOW 0xFFFF00ff
 
 #define SHADOW_BIAS 0.001
-#define EPSILON 1e-6
+#define EPSILON 0.00000000000000001
 
 /* ************************************************************************** */
 /*                                Geometry structures                         */
@@ -58,7 +58,7 @@ typedef struct s_ray
 typedef struct s_sphere
 {
 	t_vector	center;
-	float		radius;
+	double		radius;
 	t_vector	color;
 }	t_sphere;
 
@@ -73,8 +73,8 @@ typedef struct s_cylinder
 {
 	t_vector	center;
 	t_vector	axis;
-	float		radius;
-	float		height;
+	double		radius;
+	double		height;
 	t_vector	color;
 }	t_cylinder;
 
@@ -82,7 +82,7 @@ typedef struct s_paraboloid
 {
 	t_vector	center;
 	t_vector	direction;
-	float		radius;
+	double		radius;
 	int			color;
 }	t_paraboloid;
 
@@ -156,6 +156,6 @@ typedef struct s_data
 	int			w_width;
 }	t_data;
 
-int	proportional_color(float percentage, int min_color, int max_color);
+int	proportional_color(double percentage, int min_color, int max_color);
 int get_color(t_data *data, t_vector intersection, t_object *object);
 #endif

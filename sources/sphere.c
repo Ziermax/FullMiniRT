@@ -12,7 +12,7 @@
 
 #include "../includes/minirt.h"
 
-float	choose_smaller_t(float t1, float t2)
+double	choose_smaller_t(double t1, double t2)
 {
 	if (t1 > EPSILON && (t1 < t2 || t2 <= EPSILON))
 		return (t1);
@@ -21,11 +21,11 @@ float	choose_smaller_t(float t1, float t2)
 	return (INFINITY);
 }
 
-float	quadratic_formula(float a, float b, float discriminant)
+double	quadratic_formula(double a, double b, double discriminant)
 {
-	float	t1;
-	float	t2;
-	float	sqrt_discriminant;	
+	double	t1;
+	double	t2;
+	double	sqrt_discriminant;	
 
 	if (discriminant < EPSILON)
 		return (INFINITY);
@@ -38,13 +38,13 @@ float	quadratic_formula(float a, float b, float discriminant)
 	}
 }
 
-float	check_sphere_intersection(t_object *object, t_ray ray)
+double	check_sphere_intersection(t_object *object, t_ray ray)
 {
 	t_vector	oc;
-	float		a;
-	float		b;
-	float		c;
-	float		discriminant;
+	double		a;
+	double		b;
+	double		c;
+	double		discriminant;
 
 	oc = vector_subtract(ray.origin, object->shape.sphere.center);
 	a = dot_product(ray.direction, ray.direction);

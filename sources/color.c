@@ -47,7 +47,7 @@ int	apply_diffuse_lighting(int o_color, t_light *light, t_vector x, t_object *o)
 int	apply_ambient_lighting(t_object *object, t_data *data)
 {
 	int		ambient_color;
-	float	brightness;
+	double	brightness;
 
 	brightness = data->scene.amb_light.brightness;
 	if (brightness < 0.01f)
