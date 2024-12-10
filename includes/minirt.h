@@ -67,6 +67,8 @@ t_ray			create_ray(t_data *data, int x, int y);
 
 //color utils
 
+int				get_color(t_data *data, t_vector intersection,
+					t_object *object);
 void			clamp_rgba(int *red, int *green, int *blue, int *alpha);
 int				sum_colors(int color1, int color2);
 int				scale_color(int base_color, double brightness_factor);

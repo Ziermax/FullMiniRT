@@ -15,7 +15,7 @@ LIBFT_D	= ./Libft/
 #<---------------------------------|FILES|------------------------------------>#
 
 SRC_D	= ./sources/
-SRC_F	= main.c vector_operation.c color.c cylinder.c \
+SRC_F	= main.c vector_operation.c color.c cylinder.c cyl_utils.c\
 			 math.c plane.c ray.c render_engine.c sphere.c color_utils.c \
 
 OBJ_D	= ./objects/
