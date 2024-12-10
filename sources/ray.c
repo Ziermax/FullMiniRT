@@ -23,10 +23,10 @@ t_vector	calculate_direction(t_vector camera_dir, double ndc_x, double ndc_y)
 	right = normalize_vector(right.x, right.y, right.z);
 	up = vector_cross_product(right, camera_dir);
 	up = normalize_vector(up.x, up.y, up.z);
-	right = vector_scalar(right, ndc_x);
-	up = vector_scalar(up, ndc_y);
-	direction = vector_add(camera_dir, right);
-	direction = vector_add(direction, up);
+	right = scl_vec(right, ndc_x);
+	up = scl_vec(up, ndc_y);
+	direction = add_vec(camera_dir, right);
+	direction = add_vec(direction, up);
 	direction = normalize_vector(direction.x, direction.y, direction.z);
 	return (direction);
 }

@@ -27,8 +27,7 @@
 # define BLACK 0x000000ff
 # define YELLOW 0xFFFF00ff
 
-#define SHADOW_BIAS 0.001
-#define EPSILON 0.00000000000000001
+# define EPSILON 0.0000001
 
 /* ************************************************************************** */
 /*                                Geometry structures                         */
@@ -108,12 +107,12 @@ struct s_object
 /*                                Scene structures                            */
 /* ************************************************************************** */
 
-
-typedef struct s_intersection {
-    t_vector intersection;
-    t_object *object;
-	bool hit;
-} t_intersection;
+typedef struct s_intersection
+{
+	t_vector	intersection;
+	t_object	*object;
+	bool		hit;
+}	t_intersection;
 
 typedef struct s_light	t_light;
 
@@ -138,7 +137,6 @@ typedef struct s_scene
 	t_light		*lights;
 	t_light		amb_light;
 	t_camera	camera;
-//	int			num_lights;
 }	t_scene;
 
 /* ************************************************************************** */
@@ -156,6 +154,4 @@ typedef struct s_data
 	int			w_width;
 }	t_data;
 
-int	proportional_color(double percentage, int min_color, int max_color);
-int get_color(t_data *data, t_vector intersection, t_object *object);
 #endif

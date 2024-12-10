@@ -21,7 +21,7 @@ double	check_plane_intersection(t_object *object, t_ray ray)
 	denom = dot_product(ray.direction, object->shape.plane.normal);
 	if (denom > EPSILON || denom < -EPSILON)
 	{
-		oc = vector_subtract(object->shape.plane.center, ray.origin);
+		oc = sub_vec(object->shape.plane.center, ray.origin);
 		t = dot_product(oc, object->shape.plane.normal) / denom;
 		if (t >= EPSILON)
 			return (t);

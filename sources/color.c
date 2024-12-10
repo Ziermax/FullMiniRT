@@ -19,13 +19,18 @@ t_vector	surface_normal(t_object *object, t_vector intersection)
 	normal = (t_vector){0, 0, 0};
 	if (object->type == SPHERE)
 	{
-		normal = vector_subtract(intersection, object->shape.sphere.center);
+		normal = sub_vec(intersection, object->shape.sphere.center);
 		normal = normalize_vector(normal.x, normal.y, normal.z);
 	}
 	else if (object->type == PLANE)
 		normal = object->shape.plane.normal;
 	else if (object->type == CYLINDER)
+	{
+		object->shape.cylinder.axis
+			= normalize_vector(object->shape.cylinder.axis.x,
+				object->shape.cylinder.axis.y, object->shape.cylinder.axis.z);
 		normal = cylinder_normal(object->shape.cylinder, intersection);
+	}
 	return (normal);
 }
 
@@ -36,11 +41,11 @@ int	apply_diffuse_lighting(int o_color, t_light *light, t_vector x, t_object *o)
 	t_vector	normal;
 
 	normal = surface_normal(o, x);
-	light_dir = vector_subtract(light->origin, x);
+	light_dir = sub_vec(light->origin, x);
 	light_dir = normalize_vector(light_dir.x, light_dir.y, light_dir.z);
 	cos_theta = dot_product(normal, light_dir);
 	if (cos_theta < EPSILON)
-		cos_theta = 0;
+		cos_theta = EPSILON;
 	return (scale_color(o_color, light->brightness * cos_theta));
 }
 
@@ -65,7 +70,7 @@ int	in_shadow(t_data *data, t_vector x, t_object *obj, t_light *light)
 	t_intersection	intersection_data;
 
 	shadow_ray.origin = light->origin;
-	shadow_ray.direction = vector_subtract(x, light->origin);
+	shadow_ray.direction = sub_vec(x, light->origin);
 	shadow_ray.direction = normalize_vector(shadow_ray.direction.x,
 			shadow_ray.direction.y, shadow_ray.direction.z);
 	intersection_data = check_intersections(data->scene.objects, shadow_ray);

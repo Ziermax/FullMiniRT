@@ -46,7 +46,7 @@ double	check_sphere_intersection(t_object *object, t_ray ray)
 	double		c;
 	double		discriminant;
 
-	oc = vector_subtract(ray.origin, object->shape.sphere.center);
+	oc = sub_vec(ray.origin, object->shape.sphere.center);
 	a = dot_product(ray.direction, ray.direction);
 	b = 2 * dot_product(oc, ray.direction);
 	c = dot_product(oc, oc) - (object->shape.sphere.radius

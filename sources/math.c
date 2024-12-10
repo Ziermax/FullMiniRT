@@ -12,7 +12,7 @@
 
 #include "../includes/minirt.h"
 
-t_vector	vector_add(t_vector a, t_vector b)
+t_vector	add_vec(t_vector a, t_vector b)
 {
 	t_vector	vector;
 
@@ -22,7 +22,7 @@ t_vector	vector_add(t_vector a, t_vector b)
 	return (vector);
 }
 
-t_vector	vector_subtract(t_vector a, t_vector b)
+t_vector	sub_vec(t_vector a, t_vector b)
 {
 	t_vector	vector;
 
@@ -37,16 +37,6 @@ double	vector_length(t_vector v)
 	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
 }
 
-t_vector	vector_scalar(t_vector a, double scalar)
-{
-	t_vector	vector;
-
-	vector.x = a.x * scalar;
-	vector.y = a.y * scalar;
-	vector.z = a.z * scalar;
-	return (vector);
-}
-
 t_vector	vector_cross_product(t_vector a, t_vector b)
 {
 	t_vector	vector;
@@ -56,4 +46,3 @@ t_vector	vector_cross_product(t_vector a, t_vector b)
 	vector.z = a.x * b.y - a.y * b.x;
 	return (vector);
 }
-

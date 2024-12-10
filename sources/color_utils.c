@@ -86,7 +86,7 @@ int	clamp_color(int color)
 	return ((red << 24) | (green << 16) | (blue << 8) | alpha);
 }
 
-int	multiply_colors_with_fallback(int color1, int color2, double fallback_factor)
+int	multiply_colors_with_fallback(int color1, int color2, double fallback)
 {
 	int	red;
 	int	green;
@@ -100,10 +100,9 @@ int	multiply_colors_with_fallback(int color1, int color2, double fallback_factor
 		alpha = (color1 & 0xFF);
 	else
 		alpha = (color2 & 0xFF);
-	red += ((color2 >> 24) & 0xFF) * fallback_factor;
-	green += ((color2 >> 16) & 0xFF) * fallback_factor;
-	blue += ((color2 >> 8) & 0xFF) * fallback_factor;
+	red += ((color2 >> 24) & 0xFF) * fallback;
+	green += ((color2 >> 16) & 0xFF) * fallback;
+	blue += ((color2 >> 8) & 0xFF) * fallback;
 	clamp_rgba(&red, &green, &blue, &alpha);
 	return ((red << 24) | (green << 16) | (blue << 8) | alpha);
 }
-
