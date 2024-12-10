@@ -6,7 +6,7 @@
 /*   By: mvelazqu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:12:34 by mvelazqu          #+#    #+#             */
-/*   Updated: 2024/07/02 18:11:40 by mvelazqu         ###   ########.fr       */
+/*   Updated: 2024/12/10 13:25:44 by mvelazqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	lst_clear(void *list, void (*del)(void *))
 	while (aux)
 	{
 		tmp = *aux;
-		del(aux);
+		if (del != free)
+			del(aux);
 		free(aux);
 		aux = tmp;
 	}

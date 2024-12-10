@@ -6,7 +6,7 @@
 /*   By: mvelazqu <mvelazqu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 17:01:12 by mvelazqu          #+#    #+#             */
-/*   Updated: 2024/08/15 19:02:30 by mvelazqu         ###   ########.fr       */
+/*   Updated: 2024/12/08 17:16:03 by mvelazqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char	*no_skip(char *str);
 char	*skip_spaces(char *str);
 char	*next_string(char *str);
 char	*next_word(char *str);
+char	*next_simple_word(char *str);
 char	**ultra_split(char *str, char *(*skip)(char *), char *(*next)(char *));
 char	**ft_split(char *str);
 char	**ft_split_char(char *str, char *separator);

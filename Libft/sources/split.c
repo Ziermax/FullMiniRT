@@ -6,13 +6,13 @@
 /*   By: mvelazqu <mvelazqu@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 13:24:52 by mvelazqu          #+#    #+#             */
-/*   Updated: 2024/06/22 20:21:20 by mvelazqu         ###   ########.fr       */
+/*   Updated: 2024/12/08 17:15:57 by mvelazqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 
-static	char	*next_simple_word(char *str)
+char	*next_simple_word(char *str)
 {
 	if (!str)
 		return (NULL);
