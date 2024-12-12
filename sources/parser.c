@@ -6,7 +6,7 @@
 /*   By: mvelazqu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 16:49:01 by mvelazqu          #+#    #+#             */
-/*   Updated: 2024/12/12 15:29:17 by mvelazqu         ###   ########.fr       */
+/*   Updated: 2024/12/12 21:32:03 by mvelazqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	print_shape(t_shape shape, int type)
 
 void	print_obj(void *aux)
 {
-	t_object *obj;
+	t_object	*obj;
 
 	obj = aux;
 	printf("Type: %s\n", get_type(obj->type));
@@ -80,7 +80,7 @@ void	print_obj(void *aux)
 
 void	print_light(void *aux)
 {
-	t_light *light;
+	t_light	*light;
 
 	light = aux;
 	printf("Light:\n | Origin: ");
@@ -91,7 +91,7 @@ void	print_light(void *aux)
 
 void	print_camera(void *aux)
 {
-	t_camera *camera;
+	t_camera	*camera;
 
 	camera = aux;
 	printf("Camera:\n | Origin: ");
@@ -192,6 +192,7 @@ static int	error_atod(char *str, double *store)
 		return (1);
 	*store = (double)(sign * whole)
 		+ (double)fract / (int)pow(10, length_long(fract));
+	*store *= sign;
 	return (0);
 }
 
@@ -296,7 +297,7 @@ static int	fill_amb(char **input, t_scene *scene, t_anal_data *data)
 static int	fill_cam(char **input, t_scene *scene, t_anal_data *data)
 {
 	t_vector	origin;
-	t_vector	orientation;
+	t_vector	ort;
 	double		fov;
 
 	if (data->camera)
@@ -307,13 +308,15 @@ static int	fill_cam(char **input, t_scene *scene, t_anal_data *data)
 		return (3);
 	if (error_atovec(input[1], &origin))
 		return (3);
-	if (error_atovec(input[2], &orientation))
+	if (error_atovec(input[2], &ort))
 		return (3);
 	if (error_atod(input[3], &fov))
 		return (3);
+	if (fov >= 180.0 | fov < 1.0)
+		return (3);
 	data->camera = 1;
 	scene->camera.origin = origin;
-	scene->camera.orientation = orientation;
+	scene->camera.orientation = normalize_vector(ort.x, ort.y, ort.z);
 	scene->camera.fov = fov;
 	return (0);
 }
@@ -329,9 +332,9 @@ static int	fill_light(char **input, t_scene *scene, t_anal_data *data)
 		return (4);
 	if (ft_arraylen(input) != 4)
 		return (4);
-	if (error_atovec(input[1], &origin))
+	if (error_atovec(input[1], &origin) || error_atod(input[2], &brightness))
 		return (4);
-	if (error_atod(input[2], &brightness))
+	if (brightness > 1. || brightness < 0)
 		return (4);
 	if (error_atorgb(input[3], &color))
 		return (4);
@@ -363,7 +366,7 @@ static int	fill_sphere(char **input, t_object *object)
 		return (6);
 	object->type = SPHERE;
 	object->shape.sphere.center = center;
-	object->shape.sphere.radius = radius;
+	object->shape.sphere.radius = radius * 0.5;
 	object->color = color;
 	return (0);
 }
@@ -384,7 +387,7 @@ static int	fill_plane(char **input, t_object *object)
 		return (7);
 	object->type = PLANE;
 	object->shape.plane.center = center;
-	object->shape.plane.normal = normal;
+	object->shape.plane.normal = normalize_vector(normal.x, normal.y, normal.z);
 	object->color = color;
 	return (0);
 }
@@ -411,8 +414,8 @@ static int	fill_cylinder(char **input, t_object *object)
 		return (8);
 	object->type = CYLINDER;
 	object->shape.cylinder.center = center;
-	object->shape.cylinder.axis = axis;
-	object->shape.cylinder.radius = radius;
+	object->shape.cylinder.axis = normalize_vector(axis.x, axis.y, axis.z);
+	object->shape.cylinder.radius = radius * 0.5;
 	object->shape.cylinder.height = height;
 	object->color = color;
 	return (0);

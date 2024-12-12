@@ -6,7 +6,7 @@
 /*   By: mvelazqu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 16:41:02 by mvelazqu          #+#    #+#             */
-/*   Updated: 2024/12/12 15:27:10 by mvelazqu         ###   ########.fr       */
+/*   Updated: 2024/12/12 21:29:39 by mvelazqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,28 +45,19 @@ void	my_put_pixel(mlx_image_t *img, int x, int y, int color)
 void	destroy_data(t_data *data)
 {
 	mlx_close_window(data->mlx);
+	free_scene(&data->scene);
 }
-//	while (data->scene.lights)
-//	{
-//		free(data->scene.lights);
-//		data->scene.lights = data->scene.lights->next;
-//	}
-//	while (data->scene.objects)
-//	{
-//		free(data->scene.objects);
-//		data->scene.objects = data->scene.objects->next;
-//	}
 
 void	key_events(void *param)
 {
-//	mlx_image_t	*image;
 	mlx_t		*mlx;
 
 	mlx = ((t_data *)param)->mlx;
-//	image = ((t_data *)param)->img;
 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
 		destroy_data(param);
 }
+
+void	print_scene(t_scene scene);
 
 int	main(int argc, char **argv)
 {
@@ -80,9 +71,9 @@ int	main(int argc, char **argv)
 	data.scene = get_scene(argv[1]);
 	if (!data.scene.objects)
 		return (2);
+	print_scene(data.scene);
 	data.mlx = mlx_init(W_WIDTH, W_HEIGHT, "miniRT", false);
 	data.img = mlx_new_image(data.mlx, W_WIDTH, W_HEIGHT);
-	//data.scene = init_scene();
 	mlx_image_to_window(data.mlx, data.img, 0, 0);
 	mlx_loop_hook(data.mlx, key_events, &data.mlx);
 	data.w_height = data.img->height / BPP;
@@ -91,15 +82,15 @@ int	main(int argc, char **argv)
 	data.scale = tan(data.scene.camera.fov * 0.5 * M_PI / 180);
 	render_engine(&data);
 	mlx_loop(data.mlx);
+	mlx_delete_image(data.mlx, data.img);
 	mlx_terminate(data.mlx);
-	free_scene(&data.scene);
 	return (0);
 }
 
 /* ************************************************************************** */
 /*                                Harcoding functions                         */
 /* ************************************************************************** */
-
+/*
 t_object	*hardcode_plane(void)
 {
 	t_object	*object;
@@ -175,9 +166,6 @@ t_scene	init_scene(void)
 	t_object *new_object;
 	t_scene	scene;
 
-	/*	*
-	 *	Camera
-	 */
 	scene.camera.origin.x = 0.f;
 	scene.camera.origin.y = 0.f;
 	scene.camera.origin.z = -20.f;
@@ -185,17 +173,11 @@ t_scene	init_scene(void)
 	scene.camera.orientation.y = 0.f;
 	scene.camera.orientation.z = 1.0f;
 	scene.camera.fov = 60.f;
-	/*	*
-	 *	Lights
-	 */
 	scene.amb_light.brightness = 0.1f;
 	scene.amb_light.color = WHITE;
 	scene.lights = NULL;
 	lst_add_back(&scene.lights, hardcode_light());
 
-	/*	*
-	 *	Action
-	 */
 	scene.objects = NULL;
 	// Add first sphere
 	new_object = hardcode_sphere();
@@ -235,4 +217,4 @@ t_scene	init_scene(void)
 
 	return (scene);
 }
-
+*/
