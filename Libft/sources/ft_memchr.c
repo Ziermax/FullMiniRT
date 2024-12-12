@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.c                                           :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atudor <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: atudor <atudor@student.42barcelon>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/19 01:37:38 by atudor            #+#    #+#             */
-/*   Updated: 2024/09/19 01:37:40 by atudor           ###   ########.fr       */
+/*   Created: 2023/09/13 17:29:28 by atudor            #+#    #+#             */
+/*   Updated: 2023/09/24 21:30:25 by atudor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minirt.h"
+#include "libft.h"
 
-t_camera create_camera(void)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	t_camera	camera;
+	unsigned char		a;
+	const unsigned char	*x;
 
-	init_vector(&camera.origin, 0.f, 0.f, 0.f);
-	init_vector(&camera.orientation, 0.f, 0.f, 1.f);
-	camera.fov = 60.f;
-	return (camera);
+	a = (unsigned char)c;
+	x = s;
+	while (n > 0)
+	{
+		if (*x == a)
+			return ((unsigned char *)x);
+		x++;
+		n--;
+	}
+	return (0);
 }

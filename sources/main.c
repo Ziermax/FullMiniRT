@@ -6,15 +6,33 @@
 /*   By: mvelazqu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 16:41:02 by mvelazqu          #+#    #+#             */
-/*   Updated: 2024/11/03 04:26:19 by mvelazqu         ###   ########.fr       */
+/*   Updated: 2024/12/08 19:02:50 by atudor           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Libft/includes/libft.h"
-#include "../includes/structs.h" 
+#include "../includes/libft/libft.h"
+#include "../includes/structs.h"
+#include "../includes/minirt.h"
 
 //QUITAR ESTO
 t_scene	init_scene(void);
+
+void	lst_add_back(void *list, void *node)
+{
+	void	**aux;
+
+	if (!list || !node)
+		return ;
+	if (!*(void **)list)
+	{
+		*(void **)list = node;
+		return ;
+	}
+	aux = *(void **)list;
+	while (*aux)
+		aux = *aux;
+	*aux = node;
+}
 
 void	my_put_pixel(mlx_image_t *img, int x, int y, int color)
 {
@@ -58,11 +76,11 @@ void	destroy_data(t_data *data)
 
 void	key_events(void *param)
 {
-	mlx_image_t	*image;
+//	mlx_image_t	*image;
 	mlx_t		*mlx;
 
 	mlx = ((t_data *)param)->mlx;
-	image = ((t_data *)param)->img;
+//	image = ((t_data *)param)->img;
 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
 		destroy_data(param);
 }
@@ -81,10 +99,9 @@ int	main(int argc, char **argv)
 	mlx_loop_hook(data.mlx, key_events, &data.mlx);
 	data.w_height = data.img->height / BPP;
 	data.w_width = data.img->width / BPP;
-	/*	*
-	 *	Aqui va tu funcion ->
-	 *	draw_scene(data, data.scene);
-	 */
+	data.aspect_ratio = data.w_width / data.w_height;
+	data.scale = tan(data.scene.camera.fov * 0.5 * M_PI / 180);
+	render_engine(&data);
 	mlx_loop(data.mlx);
 	mlx_terminate(data.mlx);
 	return (0);
@@ -103,11 +120,11 @@ t_object	*hardcode_plane(void)
 		return (NULL);
 	object->type = PLANE;
 	object->shape.plane.center.x = 0.f;
-	object->shape.plane.center.z = 0.f;
+	object->shape.plane.center.z = 20.f;
 	object->shape.plane.center.y = -2.f;
 	object->shape.plane.normal.x = 0.f;
-	object->shape.plane.normal.z = 0.f;
-	object->shape.plane.normal.y = 1.f;
+	object->shape.plane.normal.z = 1.f;
+	object->shape.plane.normal.y = 0.2f;
 	object->color = 0xFF0000ff;
 	object->next = NULL;
 	return (object);
@@ -138,16 +155,35 @@ t_light	*hardcode_light(void)
 	if (!light)
 		return (NULL);
 	light->origin.x = 0.f;
-	light->origin.z = 0.f;
+	light->origin.z = -20.f;
 	light->origin.y = 0.f;
-	light->color = 0xffFF;
-	light->brightness = 1.f;
+	light->color = WHITE;
+	light->brightness = 0.5f;
 	light->next = NULL;
 	return (light);
 }
 
+t_object *hardcode_cylinder(void)
+{
+    t_object *object = malloc(sizeof(t_object));
+    if (!object)
+        return NULL;
+
+    object->type = CYLINDER;
+    object->shape.cylinder.center = (t_vector){0, 10, 150};
+    object->shape.cylinder.axis = (t_vector){0, -1, -0.2};
+    //object->shape.cylinder.axis = (t_vector){0, 0.2, 0.2}; // Vertical axis
+    object->shape.cylinder.radius = 100.0f;
+    object->shape.cylinder.height = 10.0f;
+    object->color = YELLOW;
+    object->next = NULL;
+
+    return object;
+}
+
 t_scene	init_scene(void)
 {
+	t_object *new_object;
 	t_scene	scene;
 
 	/*	*
@@ -155,34 +191,59 @@ t_scene	init_scene(void)
 	 */
 	scene.camera.origin.x = 0.f;
 	scene.camera.origin.y = 0.f;
-	scene.camera.origin.z = 0.f;
-	scene.camera.orientation.x = 0.f;
+	scene.camera.origin.z = -20.f;
+	scene.camera.orientation.x = 0.0f;
 	scene.camera.orientation.y = 0.f;
-	scene.camera.orientation.z = 1.f;
+	scene.camera.orientation.z = 1.0f;
+	scene.camera.fov = 60.f;
 	/*	*
 	 *	Lights
 	 */
-	scene.amb_light.brightness = 1.f;
-	scene.amb_light.color = 0x0;
+	scene.amb_light.brightness = 0.1f;
+	scene.amb_light.color = WHITE;
 	scene.lights = NULL;
 	lst_add_back(&scene.lights, hardcode_light());
+
 	/*	*
 	 *	Action
 	 */
 	scene.objects = NULL;
-	lst_add_back(&scene.objects, hardcode_sphere());
-	scene.objects->shape.sphere.center.z = 8.19152f;
-	scene.objects->shape.sphere.center.x = 5.7357f;
-	scene.objects->shape.sphere.radius = 4;
-	scene.objects->color = GREEN;
-	lst_add_back(&scene.objects, hardcode_sphere());
-	scene.objects->next->shape.sphere.center.z = 8.19152f;
-	scene.objects->next->shape.sphere.center.x = -5.7357f;
-	scene.objects->next->shape.sphere.radius = 4;
-	scene.objects->next->color = RED;
-	lst_add_back(&scene.objects, hardcode_sphere());
-	scene.objects->next->next->shape.sphere.center.z = 50;
-	scene.objects->next->next->shape.sphere.radius = 3;
-	scene.objects->next->next->color = BLUE;
+	// Add first sphere
+	new_object = hardcode_sphere();
+	new_object->shape.sphere.center.z = 8.19152f;
+	new_object->shape.sphere.center.x = 5.7357f;
+	new_object->shape.sphere.radius = 4;
+	new_object->color = GREEN;
+	lst_add_back(&scene.objects, new_object);
+
+	// Add second sphere
+	new_object = hardcode_sphere();
+	new_object->shape.sphere.center.z = 8.19152f;
+	new_object->shape.sphere.center.x = -5.7357f;
+	new_object->shape.sphere.radius = 4;
+	new_object->color = RED;
+	lst_add_back(&scene.objects, new_object);
+
+	// Add third sphere
+	new_object = hardcode_sphere();
+	new_object->shape.sphere.center.z = 50;
+	new_object->shape.sphere.radius = 3;
+	new_object->color = BLUE;
+	lst_add_back(&scene.objects, new_object);
+
+	// add plane
+	new_object = hardcode_plane();
+	new_object->shape.plane.center.y = -50;
+	new_object->shape.plane.normal.x = 0;
+	new_object->shape.plane.normal.z = 0;
+	new_object->shape.plane.normal.y = 1;
+	new_object->color = BLUE;
+	lst_add_back(&scene.objects, new_object);
+
+	// add cylinder
+	new_object = hardcode_cylinder();
+	lst_add_back(&scene.objects, new_object);
+
 	return (scene);
 }
+

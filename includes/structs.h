@@ -15,7 +15,7 @@
 
 # include "../MLX42/include/MLX42/MLX42.h"
 
-# define BPP 8
+# define BPP 1
 # define X 0
 # define Y 1
 # define W_WIDTH 1000
@@ -23,6 +23,11 @@
 # define RED 0xFF0000ff
 # define GREEN 0x00FF00ff
 # define BLUE 0x0000FFff
+# define WHITE 0xFFFFFFff
+# define BLACK 0x000000ff
+# define YELLOW 0xFFFF00ff
+
+# define EPSILON 0.0000001
 
 /* ************************************************************************** */
 /*                                Geometry structures                         */
@@ -52,7 +57,7 @@ typedef struct s_ray
 typedef struct s_sphere
 {
 	t_vector	center;
-	float		radius;
+	double		radius;
 	t_vector	color;
 }	t_sphere;
 
@@ -67,8 +72,8 @@ typedef struct s_cylinder
 {
 	t_vector	center;
 	t_vector	axis;
-	float		radius;
-	float		height;
+	double		radius;
+	double		height;
 	t_vector	color;
 }	t_cylinder;
 
@@ -76,7 +81,7 @@ typedef struct s_paraboloid
 {
 	t_vector	center;
 	t_vector	direction;
-	float		radius;
+	double		radius;
 	int			color;
 }	t_paraboloid;
 
@@ -102,6 +107,13 @@ struct s_object
 /*                                Scene structures                            */
 /* ************************************************************************** */
 
+typedef struct s_intersection
+{
+	t_vector	intersection;
+	t_object	*object;
+	bool		hit;
+}	t_intersection;
+
 typedef struct s_light	t_light;
 
 struct s_light
@@ -125,13 +137,6 @@ typedef struct s_scene
 	t_light		*lights;
 	t_light		amb_light;
 	t_camera	camera;
-//	t_sphere	**spheres;
-//	t_plane		**planes;
-//	t_cylinder	**cylinders;
-//	int			num_spheres;
-//	int			num_planes;
-//	int			num_cylinders;
-//	int			num_lights;
 }	t_scene;
 
 /* ************************************************************************** */
@@ -143,12 +148,10 @@ typedef struct s_data
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	t_scene		scene;
-//	int			aspect_ratio;
-//	double		scale;
+	int			aspect_ratio;
+	double		scale;
 	int			w_height;
 	int			w_width;
 }	t_data;
-
-int	proportional_color(float percentage, int min_color, int max_color);
 
 #endif

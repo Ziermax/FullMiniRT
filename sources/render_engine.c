@@ -13,57 +13,91 @@
 #include "../includes/minirt.h"
 #include <math.h>
 
-t_vector	*check_intersections(t_data *data, t_ray ray)
+t_intersection	get_intersection_data(t_object *object, t_ray ray, double t)
 {
-	float		t_sphere;
-	// float		t_plane;
-	// float		t_cylinder;
-	float		closest_t;
-	t_vector	*intersection;
+	t_intersection	intersection_data;
+
+	intersection_data.intersection.x = ray.origin.x + ray.direction.x * t;
+	intersection_data.intersection.y = ray.origin.y + ray.direction.y * t;
+	intersection_data.intersection.z = ray.origin.z + ray.direction.z * t;
+	intersection_data.object = object;
+	intersection_data.hit = true;
+	return (intersection_data);
+}
+
+double	get_closest_t(t_object *object, t_ray ray, t_object **closest_object)
+{
+	double	closest_t;
+	double	temp;
 
 	closest_t = INFINITY;
-	t_sphere = check_sphere_intersection(data, ray);
-	// t_plane = check_plane_intersection(data, ray);
-	// t_cylinder = check_cylinder_intersection(data, ray);
-	closest_t = t_sphere;
-	// if (t_plane < closest_t)
-	// 	closest_t = t_plane;
-	// if (t_cylinder < closest_t)
-	// 	closest_t = t_cylinder;
+	while (object)
+	{
+		if (object->type == SPHERE)
+			temp = check_sphere_intersection(object, ray);
+		else if (object->type == PLANE)
+			temp = check_plane_intersection(object, ray);
+		else if (object->type == CYLINDER)
+			temp = check_cylinder_intersection(object, ray);
+		if (temp < closest_t)
+		{
+			*closest_object = object;
+			closest_t = temp;
+		}
+		object = object->next;
+	}
+	return (closest_t);
+}
+
+t_intersection	check_intersections(t_object *object, t_ray ray)
+{
+	double			closest_t;
+	t_intersection	intersection_data;
+	t_object		*closest_object;
+
+	closest_object = NULL;
+	closest_t = get_closest_t(object, ray, &closest_object);
 	if (closest_t == INFINITY)
-		return (NULL);
-	intersection = malloc(sizeof(t_vector));
-	intersection->x = ray.origin.x + ray.direction.x * closest_t;
-	intersection->y = ray.origin.y + ray.direction.y * closest_t;
-	intersection->z = ray.origin.z + ray.direction.z * closest_t;
-	return (intersection);
+	{
+		intersection_data.hit = false;
+		return (intersection_data);
+	}
+	intersection_data = get_intersection_data(closest_object, ray, closest_t);
+	return (intersection_data);
+}
+
+void	draw_on_img(t_data *data, int x, int y, t_intersection intersection)
+{
+	int	color;
+
+	if (intersection.hit)
+	{
+		color = intersection.object->color;
+		color = get_color(data, intersection.intersection,
+				intersection.object);
+		my_put_pixel(data->img, x, y, color);
+	}
+	else
+		my_put_pixel(data->img, x, y, BLACK);
 }
 
 void	render_engine(t_data *data)
 {
-	unsigned int	x;
-	unsigned int	y;
-	t_ray	ray;
-	t_vector	*intersection;
-	
-	// loop through each pixel in the image
+	int				x;
+	int				y;
+	t_ray			ray;
+	t_intersection	intersection;
+
 	y = 0;
-	while (y < data->img->height)
+	while (y < data->w_height)
 	{
 		x = 0;
-		while (x < data->img->width)
+		while (x < data->w_width)
 		{
 			ray = create_ray(data, x, y);
-			intersection = check_intersections(data, ray);
-			if (intersection)
-			{
-				mlx_put_pixel(data->img, x, y, 0xFF0000);
-				// get color
-				// put pixel on image
-				free(intersection);
-			}
-			else 
-				mlx_put_pixel(data->img, x, y, 0x000000);
+			intersection.hit = false;
+			intersection = check_intersections(data->scene.objects, ray);
+			draw_on_img(data, x, y, intersection);
 			x++;
 		}
 		y++;
