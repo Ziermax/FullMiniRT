@@ -6,33 +6,16 @@
 /*   By: mvelazqu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 16:41:02 by mvelazqu          #+#    #+#             */
-/*   Updated: 2024/12/08 19:02:50 by atudor           ###   ########.fr       */
+/*   Updated: 2024/12/12 15:27:10 by mvelazqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft/libft.h"
+#include "../Libft/includes/libft.h"
 #include "../includes/structs.h"
 #include "../includes/minirt.h"
 
 //QUITAR ESTO
 t_scene	init_scene(void);
-
-void	lst_add_back(void *list, void *node)
-{
-	void	**aux;
-
-	if (!list || !node)
-		return ;
-	if (!*(void **)list)
-	{
-		*(void **)list = node;
-		return ;
-	}
-	aux = *(void **)list;
-	while (*aux)
-		aux = *aux;
-	*aux = node;
-}
 
 void	my_put_pixel(mlx_image_t *img, int x, int y, int color)
 {
@@ -92,9 +75,14 @@ int	main(int argc, char **argv)
 	(void)argc;
 	(void)argv;
 	(void)data;
+	if (argc != 2)
+		return (1);
+	data.scene = get_scene(argv[1]);
+	if (!data.scene.objects)
+		return (2);
 	data.mlx = mlx_init(W_WIDTH, W_HEIGHT, "miniRT", false);
 	data.img = mlx_new_image(data.mlx, W_WIDTH, W_HEIGHT);
-	data.scene = init_scene();
+	//data.scene = init_scene();
 	mlx_image_to_window(data.mlx, data.img, 0, 0);
 	mlx_loop_hook(data.mlx, key_events, &data.mlx);
 	data.w_height = data.img->height / BPP;
@@ -104,6 +92,7 @@ int	main(int argc, char **argv)
 	render_engine(&data);
 	mlx_loop(data.mlx);
 	mlx_terminate(data.mlx);
+	free_scene(&data.scene);
 	return (0);
 }
 

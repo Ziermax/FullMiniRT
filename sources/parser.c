@@ -6,7 +6,7 @@
 /*   By: mvelazqu <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 16:49:01 by mvelazqu          #+#    #+#             */
-/*   Updated: 2024/12/12 12:42:50 by mvelazqu         ###   ########.fr       */
+/*   Updated: 2024/12/12 15:29:17 by mvelazqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -499,6 +499,13 @@ void	print_error(int error, t_anal_data data)
 		fd_printf(2, "No Object Specified\n");
 }
 
+int	open_rt_file(char *file)
+{
+	if (!search_word_in_end(".rt", file))
+		return (fd_printf(2, "Bad file extension\n"), -1);
+	return (open(file, O_RDONLY));
+}
+
 t_scene	get_scene(char *file)
 {
 	t_scene		scene;
@@ -509,7 +516,7 @@ t_scene	get_scene(char *file)
 
 	ft_bzero(&scene, sizeof(t_scene));
 	ft_bzero(&data, sizeof(t_anal_data));
-	fd = open(file, O_RDONLY);
+	fd = open_rt_file(file);
 	if (fd == -1)
 		return (scene);
 	error = 0;

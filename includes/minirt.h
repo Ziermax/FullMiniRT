@@ -6,7 +6,7 @@
 /*   By: atudor <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 09:37:33 by atudor            #+#    #+#             */
-/*   Updated: 2024/09/18 09:37:36 by atudor           ###   ########.fr       */
+/*   Updated: 2024/12/12 15:21:24 by mvelazqu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ double			quadratic_with_height_limit(double d,
 					double a[3], t_object *o, t_ray r);
 
 // inits
+t_scene			get_scene(char *file);
+void			free_scene(t_scene *scene);
 void			init_vector(t_vector *vector, double x, double y, double z);
 void			create_scene(t_scene *scene);
 
